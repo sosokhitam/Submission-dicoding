@@ -1,0 +1,47 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  automation-test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: forum-diskusi/package-lock.json
+
+      - name: Install dependencies
+        working-directory: forum-diskusi
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: forum-diskusi
+        run: npm run lint
+
+      - name: Run unit and integration tests
+        working-directory: forum-diskusi
+        run: npm test
+
+      - name: Build app
+        working-directory: forum-diskusi
+        run: npm run build
+
+      - name: Run E2E with Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: forum-diskusi
+          start: npm run dev -- --host 127.0.0.1 --port 5173
+          wait-on: http://127.0.0.1:5173
+          wait-on-timeout: 120
+          browser: electron
+          spec: cypress/e2e/login.cy.js

@@ -1,15 +1,12 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
+# Build & test artifacts
 node_modules
 dist
 dist-ssr
+storybook-static
+coverage
+cypress/videos
+cypress/screenshots
+cypress/downloads
 *.local
 .env
 .env.local

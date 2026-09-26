@@ -16,7 +16,7 @@ import ThreadInput from '../ThreadInput.jsx';
 describe('Loading', () => {
   it('menampilkan teks default', () => {
     render(<Loading />);
-    expect(screen.getByText('TEKS-SALAH-SENGAJA')).toBeInTheDocument();
+    expect(screen.getByText('Memuat data…')).toBeInTheDocument();
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
